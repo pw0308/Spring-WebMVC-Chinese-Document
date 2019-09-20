@@ -39,6 +39,7 @@ DispatcherServlet 需要一个 ***WebApplicationContext***（普通 ApplicationC
 
 根 WebApplicationContext 通常包含基础结构 bean，例如需要跨多个 Servlet 实例共享的repositories和services。子 WebApplicationContext 中通常包含给定 Servlet 本地的 bean。下图显示了这种关系：
 ![](Spring%20MVC%20Document/mvc-context-hierarchy.png)
+
 以下示例配置了一个 WebApplicationContext 层次结构：
 ```java
 public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
