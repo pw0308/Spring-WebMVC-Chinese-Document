@@ -224,7 +224,7 @@ Accept header可以包含通配符（例如 text / *），在这种情况下，C
 
 org.springframework.web.multipart 包中的 MultipartResolver 是一种用于解析包括文件上载在内的multipart request的策略。 有一个基于 Commons FileUpload 的实现，另一个实现基于Servlet 3.0 multipart request parsing。
 
-要启用多部分处理，需要在 DispatcherServlet Spring 配置一个名为 multipartResolver 的bean，类型为 MultipartResolver。 DispatcherServlet 检测到它并将其应用于传入请求。 当收到内容类型为 multipart /form-data 的 POST 时，解析器会解析内容并将当前的 HttpServletRequest 包装为 MultipartHttpServletRequest，以提供对已解析部分的访问，并将其作为请求参数公开。
+要启用MultiPart处理，需要在 DispatcherServlet Spring 配置一个名为 multipartResolver 的bean，类型为 MultipartResolver。 DispatcherServlet 检测到它并将其应用于传入请求。 当收到内容类型为 multipart /form-data 的 POST 时，解析器会解析内容并将当前的 HttpServletRequest 包装为 MultipartHttpServletRequest，以提供对已解析部分的访问，并将其作为请求参数公开。
 
 要使用 **Apache Commons FileUpload**，您可以配置名为 multipartResolver 的 CommonsMultipartResolver 类型的 bean。 您还需要将 commons-fileupload 作为依赖添加到项目。
 
@@ -332,7 +332,7 @@ public class WebConfig {
 }
 ```
 
-@RestController 是一个组合注释，它本身以 @Controller 和 @ResponseBody 组成，以表示一个控制器的每个方法都继承了class上的 @ResponseBody 注释，因此直接写入响应主体，而不是解析视图和使用  HTML 模板。
+@RestController 是一个组合注解，它本身以 @Controller 和 @ResponseBody 组成，以表示一个控制器的每个方法都继承了class上的 @ResponseBody 注解，因此直接写入响应主体，而不是解析视图和使用  HTML 模板。
 
 ### 1.3.2 Request Mapping
 您可以使用 @RequestMapping 注解将请求映射到控制器方法。 它具有各种属性，可根据 URL，HTTP 方法，请求参数，header和媒体类型进行匹配。 您可以在类级别使用它来表示共享映射，或者在方法级别使用它来映射到特定的endpoint。
@@ -581,9 +581,9 @@ public class EditPetForm {
 
 ::将参数类型声明为数组或列表允许为同一参数名称解​​析多个参数值。::
 
-当 @RequestParam 注释声明为 Map <String，String> 或 MultiValueMap <String，String > 时，如果注释中未指定参数名称，则会使用每一个请求里给出的参数名称及其参数值填充map。(最好不要用 map 作为请求参数)
+当 @RequestParam 注解声明为 Map <String，String> 或 MultiValueMap <String，String > 时，如果注解中未指定参数名称，则会使用每一个请求里给出的参数名称及其参数值填充map。(最好不要用 map 作为请求参数)
 
-默认情况下，::任何简单值类型的参数（由 BeanUtils＃isSimpleProperty 确定）并且不被任何其他参数解析器解析到，都被视为使用 @RequestParam 进行注释。::
+默认情况下，::任何简单值类型的参数（由 BeanUtils＃isSimpleProperty 确定）并且不被任何其他参数解析器解析到，都被视为使用 @RequestParam 进行注解。::
 
 而执行复杂类型的默认绑定,如果不是@requestBody 的话,那就用@ModelAttribute 就好,参见 [Spring MVC and the @ModelAttribute Annotation](bear://x-callback-url/open-note?id=E540753D-6630-4CD0-A756-59330ACE4DF2-557-0000006DF4B4CBEA) ,spring 根据命名 convention 配置了绑定规则(按名字填充字段); 另外,若是需要复杂的自定义绑定,比如把(CNY25)这样一个串绑定为一个 Money 对象,而不是标准的 Money JSON 串形式,则需要你自己定义Converter,Formatter 等了.
 
@@ -608,7 +608,7 @@ public void handle(
 }
 ```
 
-在 Map <String，String>，MultiValueMap <String，String > 或 HttpHeaders 参数上使用 @RequestHeader 注释时，将使用所有header 的值来填充映射。
+在 Map <String，String>，MultiValueMap <String，String > 或 HttpHeaders 参数上使用 @RequestHeader 注解时，将使用所有header 的值来填充映射。
 
 #### @CookieValue
 
@@ -682,7 +682,7 @@ public String update(@Valid AccountForm form, BindingResult result,
 ```
 上面的例子不会给 account 做数据绑定,因为url 中实际上只给了一个 accountId,而 acoount 实际上是根据 id 从数据库查出来的
 
-通过添加 javax.validation.@Valid 注释或 Spring 的 @Validated 注释，您可以在数据绑定后自动应用验证。 以下示例显示了如何执行此操作：
+通过添加 javax.validation.@Valid 注解或 Spring 的 @Validated 注解，您可以在数据绑定后自动应用验证。 以下示例显示了如何执行此操作：
 ```java
 @PostMapping("/owners/{ownerId}/pets/{petId}/edit")
 public String processSubmit(@Valid @ModelAttribute("pet") Pet pet, BindingResult result) { 
@@ -693,12 +693,12 @@ public String processSubmit(@Valid @ModelAttribute("pet") Pet pet, BindingResult
 }
 ```
 
-请注意，使用 @ModelAttribute 是可选的（例如，设置其属性）。 默认情况下，任何::**非**简单值类型的参数并且未被任何其他参数解析器解析，都被视为使用 @ModelAttribute 进行注释。::
+请注意，使用 @ModelAttribute 是可选的（例如，设置其属性）。 默认情况下，任何::**非**简单值类型的参数并且未被任何其他参数解析器解析，都被视为使用 @ModelAttribute 进行注解。::
 
 #### @SessionAttributes(Insert)
 @SessionAttributes ::用于在多个请求之间,使用会话来**存储**模型attribute::。 它是一个类型级别的注解，来声明特定控制器使用的会话属性。 这通常列出模型属性的名称或模型属性的类型，这些属性将被透明地存储在会话中以供后续访问请求使用。
 
-以下示例使用 @SessionAttributes 注释：
+以下示例使用 @SessionAttributes 注解：
 ```java
 @Controller
 @SessionAttributes("pet") 
@@ -789,7 +789,7 @@ public class FileUploadController {
 ```
 将参数类型声明为 List <MultipartFile> 允许为同一参数名称解析多个文件。
 
-当 @RequestParam 注释声明为 Map <String，MultipartFile> 或 MultiValueMap <String，MultipartFile > 时，如果注释中未指定参数名称，则会使用每个给定的参数名称的multipart file填充map。
+当 @RequestParam 注解声明为 Map <String，MultipartFile> 或 MultiValueMap <String，MultipartFile > 时，如果注解中未指定参数名称，则会使用每个给定的参数名称的multipart file填充map。
 
 您还可以将multipart content用作绑定到的数据的一部分。 例如，前面示例中的表单和表单中的文件可以是form object的字段，如以下示例所示：
 ```java
@@ -816,7 +816,7 @@ public class FileUploadController {
 }
 ```
 
-还可以在 RESTful 服务中,从非浏览器客户端提交多部分请求。以下示例展示了一个带有 JSON 的文件：
+还可以在 RESTful 服务中,从非浏览器客户端提交MultiPart请求。以下示例展示了一个带有 JSON 的文件：
 ```java
 POST /someUrl
 Content-Type: multipart/mixed
@@ -835,7 +835,7 @@ Content-Type: text/xml
 Content-Transfer-Encoding: 8bit
 ... File Data ...
 ```
-您可以使用 @RequestParam 作为 String 访问 “元数据” 部分，但您可能希望它从 JSON 反序列化（类似于 @RequestBody）。 在使用 HttpMessageConverter 转换后，其实可以使用 ::@RequestPart:: 注解访问多部分：
+您可以使用 @RequestParam 作为 String 访问 “元数据” 部分，但您可能希望它从 JSON 反序列化（类似于 @RequestBody）。 在使用 HttpMessageConverter 转换后，其实可以使用 ::@RequestPart:: 注解访问MultiPart：
 ```java
 @PostMapping("/")
 public String handle(@RequestPart("meta-data") MetaData metadata,
@@ -843,7 +843,7 @@ public String handle(@RequestPart("meta-data") MetaData metadata,
     // ...
 }
 ```
-您可以将 @RequestPart 与 @Valid 结合使用，或使用 Spring 的 @Validated 注释，这两种注释都会导致应用标准 Bean 验证。 默认情况下，验证错误会导致 MethodArgumentNotValidException，并将其转换为 400（BAD_REQUEST）响应。 或者，您可以通过 Errors 或 BindingResult 参数在控制器内本地处理validation错误，如以下示例所示：
+您可以将 @RequestPart 与 @Valid 结合使用，或使用 Spring 的 @Validated 注解，这两种注解都会导致应用标准 Bean 验证。 默认情况下，验证错误会导致 MethodArgumentNotValidException，并将其转换为 400（BAD_REQUEST）响应。 或者，您可以通过 Errors 或 BindingResult 参数在控制器内本地处理validation错误，如以下示例所示：
 ```java
 @PostMapping("/")
 public String handle(@Valid @RequestPart("meta-data") MetaData metadata,
@@ -863,7 +863,7 @@ public void handle(@RequestBody Account account) {
 ```
 您可以使用 MVC 配置的 “ [Message Converters](https://docs.spring.io/spring/docs/5.1.5.RELEASE/spring-framework-reference/web.html#mvc-config-message-converters) ” 选项来配置或自定义消息转换。
 
-您可以将 @RequestBody 与 javax.validation.Valid 或 Spring 的 @Validated 注释结合使用，这两种注释都会导致应用标准 Bean 验证。 默认情况下，验证错误会导致 MethodArgumentNotValidException，并将其转换为 400（BAD_REQUEST）响应。 或者，您可以通过 Errors 或 BindingResult 参数在控制器内本地处理验证错误.
+您可以将 @RequestBody 与 javax.validation.Valid 或 Spring 的 @Validated 注解结合使用，这两种注解都会导致应用标准 Bean 验证。 默认情况下，验证错误会导致 MethodArgumentNotValidException，并将其转换为 400（BAD_REQUEST）响应。 或者，您可以通过 Errors 或 BindingResult 参数在控制器内本地处理验证错误.
 
 #### HttpEntity
 
@@ -968,9 +968,9 @@ public class UserController extends AbstractController {
 
 ### 1.3.4. Model
 
-您可以在多种地方使用 @ModelAttribute 注释：
+您可以在多种地方使用 @ModelAttribute 注解：
 * 在 @RequestMapping 方法中的方法参数，用于从模型::创建或访问:: 对象 并通过 WebDataBinder 将其绑定到请求。(前面讲的就是这种)
-* 作为 @Controller 或 @ControllerAdvice 类中的方法级注释，以在任何 @RequestMapping 方法调用之前初始化模型。
+* 作为 @Controller 或 @ControllerAdvice 类中的方法级注解，以在任何 @RequestMapping 方法调用之前初始化模型。
 * 在 @RequestMapping 方法上标记其返回值是一个模型属性。
 
 本节讨论 @ModelAttribute 方法 - 前面列中的第二项。 控制器可以包含任意数量的 @ModelAttribute 方法。 在同一控制器中的 @RequestMapping 方法被调用之前,将调用所有这些方法来初始化 model 内容。 @ModelAttribute 方法也可以通过 @ControllerAdvice 在控制器之间共享。
@@ -993,7 +993,7 @@ public Account addAccount(@RequestParam String number) {
 }
 ```
 
-您还可以将 @ModelAttribute 用作 @RequestMapping 方法的方法级注释，在这种情况下，@RequestMapping 方法的返回值将被解读为 model attribute。 (也就是说,::默认情况下, 一个 controller 方法,返回值若不是 String,会被当成要添加的model attribute::)这通常不是必需的，因为它是 HTML 控制器的默认行为，除非返回值是一个 String(会被解析为 viewname)。 @ModelAttribute 还可以自定义模型属性名称，如以下示例所示：
+您还可以将 @ModelAttribute 用作 @RequestMapping 方法的方法级注解，在这种情况下，@RequestMapping 方法的返回值将被解读为 model attribute。 (也就是说,::默认情况下, 一个 controller 方法,返回值若不是 String,会被当成要添加的model attribute::)这通常不是必需的，因为它是 HTML 控制器的默认行为，除非返回值是一个 String(会被解析为 viewname)。 @ModelAttribute 还可以自定义模型属性名称，如以下示例所示：
 ```java
 @GetMapping("/accounts/{id}")
 @ModelAttribute("myAccount")
@@ -1098,13 +1098,13 @@ public ResponseEntity<String> handle(Exception ex) {
 #### REST API exceptions
 ::REST 服务的一个常见要求是在响应正文中包含错误详细信息::。 Spring Framework 不会自动执行此操作，因为响应正文中的错误详细信息的表示是特定于应用程序的。 ::但是，@ RestController 可以使用带有 ResponseEntity 返回值的 @ExceptionHandler 方法来设置响应的状态和正文。:: 这些方法也可以在 @ControllerAdvice 类中声明，以便全局应用它们。
 
-在响应body中实现具有错误详细信息的 global exception handling  的应用应考虑扩展 ::ResponseEntityExceptionHandler::，它提供对 Spring MVC 引发的异常的处理，并提供钩子来定制响应body。 要使用它，请创建 ResponseEntityExceptionHandler 的子类，使用 @ControllerAdvice 注释它，覆盖必要的方法，并将其声明为 Spring bean。
+在响应body中实现具有错误详细信息的 global exception handling  的应用应考虑扩展 ::ResponseEntityExceptionHandler::，它提供对 Spring MVC 引发的异常的处理，并提供钩子来定制响应body。 要使用它，请创建 ResponseEntityExceptionHandler 的子类，使用 @ControllerAdvice 注解它，覆盖必要的方法，并将其声明为 Spring bean。
 
 ### 1.3.7. Controller Advice
 
 通常，@ExceptionHandler，@InitBinder 和 @ModelAttribute 方法适用于其声明处的@Controller 类。 如果您希望这些方法更全局地应用起来（跨controller），则可以在标有 @ControllerAdvice 或 @RestControllerAdvice 的类中声明它们。
 
-@ControllerAdvice 用 @Component 标记，这意味着可以通过component scan将这些类注册为 Spring bean。 @RestControllerAdvice 也是一个使用 @ControllerAdvice 和 @ResponseBody 标记的元注释，这实际上意味着 @ExceptionHandler 方法通过消息转换呈现给响应body。
+@ControllerAdvice 用 @Component 标记，这意味着可以通过component scan将这些类注册为 Spring bean。 @RestControllerAdvice 也是一个使用 @ControllerAdvice 和 @ResponseBody 标记的元注解，这实际上意味着 @ExceptionHandler 方法通过消息转换呈现给响应body。
 
 在启动时，the infrastructure classes for @RequestMapping and @ExceptionHandler methods检测 @ControllerAdvice 类型的 Spring bean，然后在运行时应用它们的方法。 全局 @ExceptionHandler 方法applied after local ones(::也就是说,controller 内定义的@ExceptionHadler 优先级更高::)。 相比之下，全局的@ModelAttribute 和 @InitBinder 方法比本地的优先级更高。
 
@@ -1551,7 +1551,7 @@ public class WebConfig implements WebMvcConfigurer {
 这就可以注册自定义的那些 special bean 或者他们的行为方式,在 spring boot 中,webmvcautoconfiguration 就实现了WebMvcConfigurer
 
 ### 1.10.3. Type Conversion
-默认情况下是已经配置了 *Number* 和 *Date* 类型的 formatter，包括对 *@NumberFormat* 和 *@DateTimeFormat* 注释的支持。 单配类路径中存在 Joda-Time，则还会安装对 Joda-Time formatting library的完全支持。
+默认情况下是已经配置了 *Number* 和 *Date* 类型的 formatter，包括对 *@NumberFormat* 和 *@DateTimeFormat* 注解的支持。 单配类路径中存在 Joda-Time，则还会安装对 Joda-Time formatting library的完全支持。
 
 在 Java 配置中，您可以注册自定义formatter和converter，如以下示例所示,也就是基于1.10.2使用 add方法来进行添加
 ```java
